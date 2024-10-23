@@ -37,8 +37,18 @@ VALIDATE(){
     dnf module disable nodejs -y &>>$LOG_FILE
     VALIDATE $? "disable default nodejs"
 
+ dnf module enable nodejs:20 -y &>>$LOG_FILE
+    VALIDATE $? "enable default nodejs"
+
     dnf install nodejs -y &>>$LOG_FILE
     VALIDATE $? "Install nodejs"
 
-    useradd expense  &>>$LOG_FILE
-    VALIDATE $? "creating expense user"
+   id expense &>>$LOG_FILE
+   if [ $? -ne 0 ]
+   then 
+       echo -e "expense user not exists... $G creating $N"
+       useradd expense &>>$LOG_FILE
+       VALIDATE $? "creating expense user"
+    else 
+       echo -e "expense user already exists...$y SKIPPING $N"
+   fi
