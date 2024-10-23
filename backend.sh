@@ -34,12 +34,11 @@ VALIDATE(){
     
     CHECK_ROOT
 
-    dnf module disable nodejs -y
+    dnf module disable nodejs -y &>>$LOG_FILE
     VALIDATE $? "disable default nodejs"
 
-    dnf install nodejs -y
+    dnf install nodejs -y &>>$LOG_FILE
     VALIDATE $? "Install nodejs"
 
-    useradd expense 
+    useradd expense  &>>$LOG_FILE
     VALIDATE $? "creating expense user"
-    
